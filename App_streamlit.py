@@ -22,12 +22,14 @@ data = load_data(10000)
 original_data = data
 st.header("Where are most people injured in NYC")
 injured_people = st.slider("Number of people injured in Vehicle Collisins",0,19)
+#DEPLOYIN GEOGRAPHIC MAP
 st.map(data.query("`number of persons injured`>= @injured_people")[["latitude",'longitude']].dropna(how='any'))
 st.header("How many collisions occur during a given time of day")
 hour = st.sidebar.slider("Hour of the day",0,23)
 data = data[data['crash date_crash time'].dt.hour==hour]
 midpoint = (np.average(data['latitude']),np.average(data['longitude']))
 st.markdown("Vehicle collsion between %i:00 and %i:00"%(hour,(hour+1) % 24))
+#DEPLOYING GEOGRAPHICS MAP USING pydeck AND SHOWING DATA USING HEXAGONAL TOWERS
 st.write(pdk.Deck(map_style='mapbox://styles/mapbox/light-v9',
          initial_view_state={'latitude':midpoint[0],
                              'longitude':midpoint[1],
